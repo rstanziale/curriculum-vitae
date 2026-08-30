@@ -1,0 +1,14 @@
+# MacOS
+.DS_Store
+
+# IDEs and editors
+.idea/
+
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+
+# Distribution files
+dist/
