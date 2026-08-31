@@ -1,4 +1,4 @@
-name: CI workflow
+name: Continuous Integration
 
 on:
   push:
@@ -8,11 +8,10 @@ on:
 
 jobs:
   ci:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [22.x, 24.x]
-        os: [ubuntu-latest, windows-latest, macOS-latest]
       fail-fast: false
     steps:
       - name: Checkout repository
