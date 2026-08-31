@@ -1,0 +1,117 @@
+{
+  "$schema": "./cv.schema.json",
+  "personalInfo": {
+    "firstName": "Roberto",
+    "secondName": "Baldassarre",
+    "surname": "Stanziale",
+    "phone": "ENV_PHONE",
+    "email": "ENV_EMAIL",
+    "linkedin": "roberto-stanziale",
+    "github": "rstanziale"
+  },
+  "labels": {
+    "aboutMe": "Su di me",
+    "languages": "Lingue",
+    "skills": "Skill",
+    "softSkills": "Soft Skill",
+    "hobbies": "Hobby",
+    "experience": "Esperienze",
+    "certifications": "Certificazioni",
+    "education": "Formazione"
+  },
+  "aboutMe": "Software Developer esperto in TypeScript e Angular, con un forte orientamento alla semplicità e alla manutenibilità del software. Credo fermamente che l'efficacia di un prodotto risieda nella semplicità: applico un approccio pragmatico per ridurre la complessità tecnica, traducendola in codice pulito e documentazione snella e facilmente accessibile. Oltre a questo, grazie alla mia empatia e alla mia attitudine spiccata all'auto-apprendimento, agisco come facilitatore nel mio team, promuovendo una sinergia che permette a tutti i membri di avanzare verso obiettivi comuni in modo più rapido e senza troppi ostacoli. Queste attitudini mi sono utili anche fuori dal lavoro, dove ricopro la carica di segretario con funzioni di tesoreria per un'associazione culturale in cui mi ritrovo a redigere verbali e bilanci.",
+  "languages": [
+    { "name": "Italiano", "level": "madrelingua" },
+    { "name": "Inglese", "level": "B2" }
+  ],
+  "hardSkills": [
+    "TypeScript / Javascript",
+    "HTML / CSS / SCSS",
+    "Angular",
+    "Java / NodeJS / Go",
+    "MongoDB",
+    "Git",
+    "OOP",
+    "Design Pattern"
+  ],
+  "softSkills": [
+    "Empatia",
+    "Intraprendenza",
+    "Gestione del tempo",
+    "Responsabilità",
+    "Comunicazione",
+    "Voglia di imparare"
+  ],
+  "hobbies": [
+    "Trekking",
+    "Finanza personale",
+    "Film / Serie TV",
+    "Yoga",
+    "Lettura libri",
+    "Fumetti / Manga"
+  ],
+  "workExperience": [
+    {
+      "company": "DEDALUS ITALIA S.p.A.",
+      "period": "set 2018 / oggi",
+      "role": "Software Developer",
+      "techStack": [
+        "Typescript",
+        "Angular",
+        "PrimeNG",
+        "Bootstrap",
+        "NodeJS",
+        "Java",
+        "Vert.x",
+        "MongoDB",
+        "Git",
+        "GitHub",
+        "Docker",
+        "OKD",
+        "Confluence",
+        "Jira"
+      ],
+      "highlights": [
+        {
+          "title": "Sviluppo",
+          "description": "Responsabile dello sviluppo di interi moduli del prodotto core, occupandomi della definizione di modelli dati e servizi REST con un focus costante sul contenimento della complessità architetturale."
+        },
+        {
+          "title": "Documentazione",
+          "description": "Aggiorno attivamente la documentazione di prodotto dove riporto standard e convenzioni adottate in modo da facilitare processi di onboarding. Inoltre, ricerco nuovi strumenti per migliorare la parte documentale del prodotto, come nel caso dell'adottamento di TypeSpec che ha permesso di generare documentazione API in modo più rapido rispetto alla produzione manuale del file Swagger, aumentando la developer experience."
+        },
+        {
+          "title": "Supporto delivery",
+          "description": "Riscontrando una eccessiva ripetitività delle segnalazioni di errore, ho definito casi d'uso semplificati per la delivery, rendendo più semplice l'indagine da parte della delivery e rendendo lo smistamento degli errori verso il team di competenza più veloce."
+        },
+        {
+          "title": "Recruiting & Onboarding",
+          "description": "Partecipo allo screening tecnico di nuove risorse e il relativo percorso di onboarding. Ho facilitato l'onboarding di 5+ risorse, di cui 2 di esse alla piena autonomia operativa in circa 6 mesi."
+        }
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "title": "AWS Certified Cloud Practitioner",
+      "period": { "from": "Novembre 2024", "to": "Novembre 2027" }
+    }
+  ],
+  "education": {
+    "institution": "Università degli studi di Bari \"Aldo Moro\"",
+    "field": "Informatica e ingegneria della conoscenza",
+    "grade": "105",
+    "maxGrade": "110",
+    "degrees": [
+      {
+        "level": "Laurea magistrale",
+        "thesisTitle": "Analisi, Progettazione e Sviluppo di un chatbot a supporto di un Holistic Recommender System"
+      },
+      {
+        "level": "Laurea triennale",
+        "thesisTitle": "Un sistema di data mining per la sintesi di variabili relazionali nella classificazione di immagini iperspettrali"
+      }
+    ]
+  },
+  "gdprConsent": "Autorizzo il trattamento dei miei dati personali presenti nel CV ai sensi del Decreto Legislativo 30 giugno 2003, n. 196 \"Codice in materia di protezione dei dati personali\" e dell'art. 13 del GDPR (Regolamento UE 2016/679)."
+}
