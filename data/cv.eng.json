@@ -1,0 +1,116 @@
+{
+  "$schema": "./cv.schema.json",
+  "personalInfo": {
+    "firstName": "Roberto",
+    "secondName": "Baldassarre",
+    "surname": "Stanziale",
+    "phone": "ENV_PHONE",
+    "email": "ENV_EMAIL",
+    "linkedin": "roberto-stanziale",
+    "github": "rstanziale"
+  },
+  "labels": {
+    "aboutMe": "About Me",
+    "languages": "Languages",
+    "skills": "Skills",
+    "softSkills": "Soft Skills",
+    "hobbies": "Hobbies",
+    "experience": "Work Experience",
+    "certifications": "Certifications",
+    "education": "Education"
+  },
+  "aboutMe": "Experienced Software Developer skilled in TypeScript and Angular, with a strong focus on simplicity and maintainability. I believe that a product's effectiveness lies in simplicity. I use a pragmatic approach to reduce technical complexity, turning it into clean code and clear, accessible documentation. Thanks to my empathy and strong self-learning attitude, I act as a facilitator within my team, promoting collaboration that helps everyone move toward shared goals more quickly and with fewer obstacles. These qualities also support me outside of work, where I serve as secretary and treasurer for a cultural association, managing meeting minutes and financial reports.",
+  "languages": [
+    { "name": "Italian", "level": "mother tongue" },
+    { "name": "English", "level": "B2" }
+  ],
+  "hardSkills": [
+    "TypeScript / Javascript",
+    "HTML / CSS / SCSS",
+    "Angular",
+    "Java / NodeJS / Go",
+    "MongoDB",
+    "Git",
+    "OOP",
+    "Design Pattern"
+  ],
+  "softSkills": [
+    "Empathy",
+    "Intrapreneurship",
+    "Time Management",
+    "Responsibility",
+    "Communication",
+    "Continuous Learning"
+  ],
+  "hobbies": [
+    "Trekking",
+    "Personal finance",
+    "Movies / TV Shows",
+    "Yoga",
+    "Reading books",
+    "Comics / Manga"
+  ],
+  "workExperience": [
+    {
+      "company": "DEDALUS ITALIA S.p.A.",
+      "period": "Sep 2018 / Present",
+      "role": "Software Developer",
+      "techStack": [
+        "Typescript",
+        "Angular",
+        "PrimeNG",
+        "Bootstrap",
+        "NodeJS",
+        "Java",
+        "Vert.x",
+        "MongoDB",
+        "Git",
+        "GitHub",
+        "Docker",
+        "OKD",
+        "Confluence",
+        "Jira"
+      ],
+      "highlights": [
+        {
+          "title": "Development",
+          "description": "Responsible for building complete modules of the core product, defining data models and REST services while keeping architectural complexity under control."
+        },
+        {
+          "title": "Documentation",
+          "description": "I actively update product documentation, outlining standards and conventions to ease onboarding. I also look for new tools to improve documentation, such as adopting TypeSpec to generate API docs more quickly than manually producing Swagger files, boosting developer experience."
+        },
+        {
+          "title": "Delivery Support",
+          "description": "After noticing repeated error reports, I defined simplified use cases for delivery teams. This made investigation easier and improved routing of issues to the correct team."
+        },
+        {
+          "title": "Recruiting & Onboarding",
+          "description": "I support technical screening and onboarding of new hires. I helped onboard more than 5 people, with 2 of them reaching full autonomy in about 6 months."
+        }
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "title": "AWS Certified Cloud Practitioner",
+      "period": { "from": "November 2024", "to": "November 2027" }
+    }
+  ],
+  "education": {
+    "institution": "Università degli studi di Bari \"Aldo Moro\"",
+    "field": "Computer Science",
+    "grade": "105",
+    "maxGrade": "110",
+    "degrees": [
+      {
+        "level": "Master's degree",
+        "thesisTitle": "Analysis, Design and Development of a chatbot to Support a Holistic Recommender System"
+      },
+      {
+        "level": "Bachelor's degree",
+        "thesisTitle": "A data mining system for the synthesis of relational variables in hyperspectral image classification"
+      }
+    ]
+  }
+}

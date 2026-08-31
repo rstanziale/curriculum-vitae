@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{personalInfo.firstName}} {{personalInfo.surname}} - Curriculum Vitae</title>
+
+  <style>
+    :root {
+      --text-main: #404040;
+      --font-family: 'Montserrat', sans-serif;
+      --font-size: 9pt;
+      --font-size-sm: 6pt;
+      --font-weight-normal: 400;
+      --font-weight-bold: 700;
+
+      --gap-content: 8mm;
+      --gap-item: 4mm;
+      --gap-text: 2mm;
+    }
+
+    @font-face {
+      font-family: 'Montserrat';
+      font-style: normal;
+      font-weight: 400;
+      src: url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Montserrat';
+      font-style: normal;
+      font-weight: 700;
+      src: url('../assets/fonts/Montserrat-Bold.ttf') format('truetype');
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--text-main);
+      font-size: var(--font-size);
+    }
+
+    .cv {
+      width: 210mm;
+      height: 297mm;
+      padding: 20mm;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-content);
+
+      .cv__header {
+        .cv__title {
+          font-weight: var(--font-weight-bold);
+          text-transform: uppercase;
+        }
+      }
+
+      .cv__footer {
+        display: flex;
+        justify-content: center;
+
+        .cv__disclaimer {
+          font-size: var(--font-size-sm);
+          text-align: center;
+        }
+      }
+
+      .cv__content {
+        width: 100%;
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap-content);
+
+        .sidebar {
+          display: flex;
+          flex-direction: column;
+          gap: var(--gap-content);
+
+          .sidebar__name {
+            display: inline-flex;
+            gap: var(--gap-text);
+
+            .sidebar__name-part {
+              &.sidebar__name-part--highlighted {
+                font-weight: var(--font-weight-bold);
+              }
+            }
+          }
+
+          .sidebar__contacts-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            .sidebar__contacts-item {
+              display: flex;
+              align-items: center;
+              gap: var(--gap-item);
+
+              .sidebar__contacts-icon {
+                --icon-size: 13px;
+
+                width: var(--icon-size);
+                height: var(--icon-size);
+                display: inline-block;
+                color: inherit;
+                flex-shrink: 0;
+
+                svg {
+                  width: 100%;
+                  height: 100%;
+                  display: block;
+                  fill: currentColor;
+                }
+              }
+
+              .sidebar__contacts-link {
+                text-decoration: none;
+                color: inherit;
+              }
+            }
+          }
+
+          .sidebar__section {
+            display: flex;
+            flex-direction: column;
+
+            .sidebar__section__subsection {
+              display: flex;
+              flex-direction: column;
+              gap: var(--gap-item);
+            }
+
+            .sidebar__section-title {
+              font-weight: var(--font-weight-bold);
+              text-transform: uppercase;
+            }
+
+            .sidebar__section-subtitle {
+              font-style: italic;
+            }
+
+            .sidebar__section-highlighted {
+              font-weight: var(--font-weight-bold);
+            }
+
+            .sidebar__section-separator {
+              padding: 0 2px;
+            }
+
+            .sidebar__section-stack {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: space-between;
+              font-size: var(--font-size-sm);
+            }
+
+            .sidebar__section-content {
+              text-align: justify;
+              text-justify: inter-word;
+            }
+
+            .sidebar__list--row {
+              display: flex;
+              gap: var(--gap-text);
+            }
+
+            .sidebar__list--column {
+              display: flex;
+              flex-direction: column;
+            }
+
+            .sidebar__list--grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              column-gap: 10mm;
+            }
+
+            .sidebar__list--bullet {
+              padding-left: 1.5em;
+            }
+          }
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cv">
+
+    <header class="cv__header">
+      <span class="cv__title">CURRICULUM VITAE</span>
+    </header>
+
+    <main class="cv__content">
+      <aside class="sidebar" aria-label="Sidebar left">
+        <section class="sidebar__name">
+          <span class="sidebar__name-part sidebar__name-part--highlighted">{{personalInfo.firstName}}</span>
+          {{#if personalInfo.secondName}}
+          <span>{{personalInfo.secondName}}</span>
+          <span>/</span>
+          {{/if}}
+          <span class="sidebar__name-part sidebar__name-part--highlighted">{{personalInfo.surname}}</span>
+        </section>
+
+        <ul class="sidebar__contacts-list">
+          <li class="sidebar__contacts-item">
+            <span class="sidebar__contacts-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Phone">
+                <path
+                  d="M224.2 89C216.3 70.1 195.7 60.1 176.1 65.4L170.6 66.9C106 84.5 50.8 147.1 66.9 223.3C104 398.3 241.7 536 416.7 573.1C493 589.3 555.5 534 573.1 469.4L574.6 463.9C580 444.2 569.9 423.6 551.1 415.8L453.8 375.3C437.3 368.4 418.2 373.2 406.8 387.1L368.2 434.3C297.9 399.4 241.3 341 208.8 269.3L253 233.3C266.9 222 271.6 202.9 264.8 186.3L224.2 89z" />
+              </svg>
+            </span>
+            <a href="tel:{{personalInfo.phone}}" target="_blank" rel="noopener noreferrer"
+              class="sidebar__contacts-link">
+              {{personalInfo.phone}}
+            </a>
+          </li>
+          <li class="sidebar__contacts-item">
+            <span class="sidebar__contacts-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Email">
+                <path
+                  d="M112 128C85.5 128 64 149.5 64 176C64 191.1 71.1 205.3 83.2 214.4L291.2 370.4C308.3 383.2 331.7 383.2 348.8 370.4L556.8 214.4C568.9 205.3 576 191.1 576 176C576 149.5 554.5 128 528 128L112 128zM64 260L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 260L377.6 408.8C343.5 434.4 296.5 434.4 262.4 408.8L64 260z" />
+              </svg>
+            </span>
+            <a href="mailto:{{personalInfo.email}}" target="_blank" rel="noopener noreferrer"
+              class="sidebar__contacts-link">
+              {{personalInfo.email}}
+            </a>
+          </li>
+          {{#if personalInfo.linkedin}}
+          <li class="sidebar__contacts-item">
+            <span class="sidebar__contacts-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="LinkedIn">
+                <path
+                  d="M512 96L127.9 96C110.3 96 96 110.5 96 128.3L96 511.7C96 529.5 110.3 544 127.9 544L512 544C529.6 544 544 529.5 544 511.7L544 128.3C544 110.5 529.6 96 512 96zM231.4 480L165 480L165 266.2L231.5 266.2L231.5 480L231.4 480zM198.2 160C219.5 160 236.7 177.2 236.7 198.5C236.7 219.8 219.5 237 198.2 237C176.9 237 159.7 219.8 159.7 198.5C159.7 177.2 176.9 160 198.2 160zM480.3 480L413.9 480L413.9 376C413.9 351.2 413.4 319.3 379.4 319.3C344.8 319.3 339.5 346.3 339.5 374.2L339.5 480L273.1 480L273.1 266.2L336.8 266.2L336.8 295.4L337.7 295.4C346.6 278.6 368.3 260.9 400.6 260.9C467.8 260.9 480.3 305.2 480.3 362.8L480.3 480z" />
+              </svg>
+            </span>
+            <a href="https://www.linkedin.com/in/{{personalInfo.linkedin}}" target="_blank" rel="noopener noreferrer"
+              class="sidebar__contacts-link">
+              {{personalInfo.linkedin}}
+            </a>
+          </li>
+          {{/if}}
+          {{#if personalInfo.github}}
+          <li class="sidebar__contacts-item">
+            <span class="sidebar__contacts-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="GitHub">
+                <path
+                  d="M280.5 426.5C214.5 418.5 168 371 168 309.5C168 284.5 177 257.5 192 239.5C185.5 223 186.5 188 194 173.5C214 171 241 181.5 257 196C276 190 296 187 320.5 187C345 187 365 190 383 195.5C398.5 181.5 426 171 446 173.5C453 187 454 222 447.5 239C463.5 258 472 283.5 472 309.5C472 371 425.5 417.5 358.5 426C375.5 437 387 461 387 488.5L387 540.5C387 555.5 399.5 564 414.5 558C505 523.5 576 433 576 321C576 179.5 461 64 319.5 64C178 64 64 179.5 64 321C64 432 134.5 524 229.5 558.5C243 563.5 256 554.5 256 541L256 501C249 504 240 506 232 506C199 506 179.5 488 165.5 454.5C160 441 154 433 142.5 431.5C136.5 431 134.5 428.5 134.5 425.5C134.5 419.5 144.5 415 154.5 415C169 415 181.5 424 194.5 442.5C204.5 457 215 463.5 227.5 463.5C240 463.5 248 459 259.5 447.5C268 439 274.5 431.5 280.5 426.5z" />
+              </svg>
+            </span>
+            <a href="https://github.com/{{personalInfo.github}}" target="_blank" rel="noopener noreferrer"
+              class="sidebar__contacts-link">
+              {{personalInfo.github}}
+            </a>
+          </li>
+          {{/if}}
+        </ul>
+
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.aboutMe}}</p>
+          <span class="sidebar__section-content">{{aboutMe}}</span>
+        </section>
+
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.languages}}</p>
+          <div class="sidebar__list sidebar__list--column">
+            {{#each languages}}
+            <span>{{this.name}} ({{this.level}})</span>
+            {{/each}}
+          </div>
+        </section>
+
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.skills}}</p>
+          <div class="sidebar__list sidebar__list--grid">
+            {{#each hardSkills}}
+            <span>{{this}}</span>
+            {{/each}}
+          </div>
+        </section>
+
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.softSkills}}</p>
+          <div class="sidebar__list sidebar__list--grid">
+            {{#each softSkills}}
+            <span>{{this}}</span>
+            {{/each}}
+          </div>
+        </section>
+
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.hobbies}}</p>
+          <div class="sidebar__list sidebar__list--grid">
+            {{#each hobbies}}
+            <span>{{this}}</span>
+            {{/each}}
+          </div>
+        </section>
+
+      </aside>
+
+      <aside class="sidebar" aria-label="Sidebar right">
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.experience}}</p>
+        </section>
+
+        <section class="sidebar__section">
+          {{#each workExperience}}
+          <div class="sidebar__section__subsection">
+            <div class="sidebar__list--column">
+              <div class="sidebar__list--row">
+                <p class="sidebar__section-title">{{this.company}}</p>
+                <span class="sidebar__section-subtitle">{{this.period}}</span>
+              </div>
+              <span class="sidebar__section-subtitle">{{this.role}}</span>
+            </div>
+
+            <div class="sidebar__section-stack">
+              {{#each this.techStack}}
+              <span>{{this}}</span>
+              {{#unless @last}}
+              <span class="sidebar__section-separator"> | </span>
+              {{/unless}}
+              {{/each}}
+            </div>
+
+            <ul class="sidebar__list--bullet">
+              {{#each this.highlights}}
+              <li class="sidebar__section-content">
+                <span class="sidebar__section-subtitle">{{this.title}}</span>
+                <span>-</span>
+                <span>{{this.description}}</span>
+              </li>
+              {{/each}}
+            </ul>
+
+          </div>
+          {{/each}}
+        </section>
+
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.certifications}}</p>
+          {{#each certifications}}
+          <div class="sidebar__section__subsection">
+            <div class="sidebar__list--column">
+              <p class="sidebar__section-subtitle">{{this.title}}</p>
+              <div class="sidebar__list--row">
+                <span class="sidebar__section-highlighted">{{this.period.from}}</span>
+                <span class="sidebar__section-separator"> / </span>
+                <span>{{this.period.to}}</span>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+        </section>
+
+        <section class="sidebar__section">
+          <p class="sidebar__section-title">{{labels.education}}</p>
+          <div class="sidebar__section__subsection">
+            <div class="sidebar__list--column">
+              <p>{{education.institution}}</p>
+              <span class="sidebar__section-subtitle">{{education.field}}</span>
+              <div class="sidebar__list--row">
+                <span class="sidebar__section-highlighted">{{education.grade}}</span>
+                {{#if education.maxGrade}}
+                <span class="sidebar__section-separator"> / </span>
+                <span>{{education.maxGrade}}</span>
+                {{/if}}
+              </div>
+            </div>
+
+            {{#each education.degrees}}
+            <div class="sidebar__list--column">
+              <span class="sidebar__section-subtitle">{{this.level}}</span>
+              <span class="sidebar__section-content">{{this.thesisTitle}}</span>
+            </div>
+            {{/each}}
+
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    {{#if gdprConsent}}
+    <footer class="cv__footer">
+      <span class="cv__disclaimer">{{gdprConsent}}</span>
+    </footer>
+    {{/if}}
+  </div>
+</body>
+
+</html>
