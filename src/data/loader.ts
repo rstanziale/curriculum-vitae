@@ -1,5 +1,4 @@
-import fs from 'node:fs/promises';
-
+import { readFile } from '../utils/fs.ts';
 import type { CvData } from './types.ts';
 
 //#region public methods
@@ -12,7 +11,7 @@ import type { CvData } from './types.ts';
  * @throws If file cannot be read or parsed
  */
 export async function loadCvData(dataPath: string, env: NodeJS.ProcessEnv): Promise<CvData> {
-  const raw = await fs.readFile(dataPath, 'utf8');
+  const raw = await readFile(dataPath);
   const filled = replaceEnvPlaceholders(raw, env);
   return parseCvData(filled);
 }

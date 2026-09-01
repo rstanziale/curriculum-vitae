@@ -1,10 +1,10 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import { type Browser, chromium, type Page } from 'playwright';
 
 import { resolvePaths } from '../config/paths.ts';
+import { readdir, readFileBuffer } from '../utils/fs.ts';
+import { joinPath } from '../utils/path.ts';
 import type { PdfOptions } from './options.ts';
 import { checkPageHeight } from './viewport.ts';
 
@@ -92,7 +92,7 @@ function ensureBaseHref(html: string): string {
   }
 
   const templatesDir = resolvePaths().templatesDir;
-  const baseHref = `${pathToFileURL(path.join(templatesDir)).href}/`;
+  const baseHref = `${pathToFileURL(joinPath(templatesDir)).href}/`;
   const baseTag = `<base href="${baseHref}">`;
 
   if (/<head\s*>/i.test(html)) {
@@ -112,15 +112,15 @@ function ensureBaseHref(html: string): string {
  * @returns HTML where all .ttf files are embedded as data URIs
  */
 async function embedFontsAsDataUri(html: string): Promise<string> {
-  const fontDir = path.join(resolvePaths().projectRoot, 'assets', 'fonts');
-  const fontFiles = await fs.promises.readdir(fontDir);
+  const fontDir = joinPath(resolvePaths().projectRoot, 'assets', 'fonts');
+  const fontFiles = await readdir(fontDir);
   const ttfFiles = fontFiles.filter(file => file.toLowerCase().endsWith('.ttf'));
 
   let result = html;
 
   for (const fileName of ttfFiles) {
-    const filePath = path.join(fontDir, fileName);
-    const buffer = await fs.promises.readFile(filePath);
+    const filePath = joinPath(fontDir, fileName);
+    const buffer = await readFileBuffer(filePath);
     const dataUri = `data:font/truetype;base64,${buffer.toString('base64')}`;
 
     result = result.replace(

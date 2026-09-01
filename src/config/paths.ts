@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { joinPath, resolvePath } from '../utils/path.ts';
 
 export const CV_TEMPLATE_NAME = 'cv' as const;
 
@@ -21,11 +21,11 @@ export function resolvePaths(): Paths {
   const projectRoot = getProjectRoot();
   return {
     projectRoot,
-    dataDir: path.join(projectRoot, 'data'),
-    templatesDir: path.join(projectRoot, 'templates'),
-    distDir: path.join(projectRoot, 'dist'),
-    schemaPath: path.join(projectRoot, 'data', 'cv.schema.json'),
-    cvTemplatePath: path.join(projectRoot, 'templates', 'cv.html'),
+    dataDir: joinPath(projectRoot, 'data'),
+    templatesDir: joinPath(projectRoot, 'templates'),
+    distDir: joinPath(projectRoot, 'dist'),
+    schemaPath: joinPath(projectRoot, 'data', 'cv.schema.json'),
+    cvTemplatePath: joinPath(projectRoot, 'templates', 'cv.html'),
   };
 }
 
@@ -38,7 +38,7 @@ export function resolvePaths(): Paths {
  * @returns Absolute path to project root
  */
 function getProjectRoot(): string {
-  return path.resolve('.');
+  return resolvePath('.');
 }
 
 //#endregion
