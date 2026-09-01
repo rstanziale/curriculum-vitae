@@ -29,13 +29,17 @@ describe('CV Integration Tests', () => {
       await assert.doesNotThrow(() => fs.access(pdfPath), `PDF file not found at ${pdfPath}`);
     });
 
-    it('PDF should not exceed 2 pages', async () => {
+    it('PDF should contain exactly 1 page', async () => {
       const pdfBuffer = await fs.readFile(pdfPath);
       const parser = new PDFParse({ data: pdfBuffer });
       const pdfData = await parser.getInfo();
       await parser.destroy();
 
-      assert.ok(pdfData.total <= 2, `CV exceeds page limit! Current pages: ${pdfData.total}`);
+      assert.strictEqual(
+        pdfData.total,
+        1,
+        `CV exceeds page limit! Current pages: ${pdfData.total}`
+      );
     });
 
     it(`PDF should contain the surname ${expectedSurname}`, async () => {

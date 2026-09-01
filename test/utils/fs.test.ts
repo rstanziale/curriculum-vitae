@@ -1,52 +1,56 @@
 import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import fs from 'node:fs/promises';
+import { afterEach, describe, it, mock } from 'node:test';
 
-import { resolvePath } from '../../src/utils/fs.ts';
+import { ensureDir, exists, readFile, resolvePath } from '../../src/utils/fs.ts';
 
 describe('utils/fs.ts', () => {
+  afterEach(() => {
+    mock.restoreAll();
+  });
+
   describe('readFile', () => {
     it('reads file content', async () => {
-      const readFile = async () => 'file content';
-      const { readFile: readFileFn } = await import('../../src/utils/fs.ts');
-      const content = await readFileFn('test.txt', readFile);
+      mock.method(fs, 'readFile', async () => 'file content');
+      const content = await readFile('test.txt');
       assert.strictEqual(content, 'file content');
     });
 
     it('throws on read error', async () => {
-      const readFile = async () => {
+      mock.method(fs, 'readFile', async () => {
         throw new Error('ENOENT');
-      };
-      const { readFile: readFileFn } = await import('../../src/utils/fs.ts');
-      await assert.rejects(readFileFn('test.txt', readFile), /ENOENT/);
+      });
+      await assert.rejects(readFile('test.txt'), /ENOENT/);
     });
   });
 
   describe('ensureDir', () => {
     it('creates directory', async () => {
       let created = '';
-      const mkdir = async (dir: string) => {
+      mock.method(fs, 'mkdir', async (dir: string) => {
         created = dir;
-      };
-      const { ensureDir: ensureDirFn } = await import('../../src/utils/fs.ts');
-      await ensureDirFn('test/dir', mkdir);
+      });
+      await ensureDir('test/dir');
       assert.strictEqual(created, 'test/dir');
     });
   });
 
   describe('exists', () => {
     it('returns true for existing path', async () => {
-      const stat = async () => ({ isFile: () => true, isDirectory: () => false });
-      const { exists: existsFn } = await import('../../src/utils/fs.ts');
-      const result = await existsFn('test.txt', stat);
+      mock.method(
+        fs,
+        'stat',
+        async () => ({ isFile: () => true }) as unknown as Awaited<ReturnType<typeof fs.stat>>
+      );
+      const result = await exists('test.txt');
       assert.strictEqual(result, true);
     });
 
     it('returns false for non-existing path', async () => {
-      const stat = async () => {
+      mock.method(fs, 'stat', async () => {
         throw new Error('ENOENT');
-      };
-      const { exists: existsFn } = await import('../../src/utils/fs.ts');
-      const result = await existsFn('test.txt', stat);
+      });
+      const result = await exists('test.txt');
       assert.strictEqual(result, false);
     });
   });

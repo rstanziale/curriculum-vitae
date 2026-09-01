@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { describe, it } from 'node:test';
+import fs from 'node:fs/promises';
+import { afterEach, describe, it, mock } from 'node:test';
 
 import { extractLangFromPath, loadCvData } from '../../src/data/loader.ts';
 
@@ -26,12 +27,16 @@ describe('data/loader.ts', () => {
     hobbies: ['Reading', 'Gaming'],
   });
 
+  afterEach(() => {
+    mock.restoreAll();
+  });
+
   describe('loadCvData', () => {
     it('loads and parses CV data with env replacement', async () => {
-      const readFile = async () => validCvJson;
+      mock.method(fs, 'readFile', async () => validCvJson);
       const env = { PERSONAL_PHONE: '+39 300 123 4567', PERSONAL_EMAIL: 'test@example.com' };
 
-      const data = await loadCvData('cv.ita.json', env, readFile);
+      const data = await loadCvData('cv.ita.json', env);
 
       assert.strictEqual(data.personalInfo.phone, '+39 300 123 4567');
       assert.strictEqual(data.personalInfo.email, 'test@example.com');
@@ -39,20 +44,20 @@ describe('data/loader.ts', () => {
     });
 
     it('uses default values when env vars not set', async () => {
-      const readFile = async () => validCvJson;
+      mock.method(fs, 'readFile', async () => validCvJson);
       const env: NodeJS.ProcessEnv = {};
 
-      const data = await loadCvData('cv.ita.json', env, readFile);
+      const data = await loadCvData('cv.ita.json', env);
 
       assert.strictEqual(data.personalInfo.phone, '+39 000 000 0000');
       assert.strictEqual(data.personalInfo.email, 'email@example.com');
     });
 
     it('throws on invalid JSON', async () => {
-      const readFile = async () => 'invalid json';
+      mock.method(fs, 'readFile', async () => 'invalid json');
       const env: NodeJS.ProcessEnv = {};
 
-      await assert.rejects(loadCvData('cv.ita.json', env, readFile), /JSON/);
+      await assert.rejects(loadCvData('cv.ita.json', env), /JSON/);
     });
   });
 
@@ -72,6 +77,11 @@ describe('data/loader.ts', () => {
       assert.strictEqual(lang, 'ITA');
     });
 
+    it('extracts FRA from cv.fra.json (generic language)', () => {
+      const lang = extractLangFromPath('data/cv.fra.json');
+      assert.strictEqual(lang, 'FRA');
+    });
+
     it('works with Windows paths', () => {
       const lang = extractLangFromPath('data\\cv.eng.json');
       assert.strictEqual(lang, 'ENG');
@@ -79,7 +89,8 @@ describe('data/loader.ts', () => {
 
     it('throws on invalid filename format', () => {
       assert.throws(() => extractLangFromPath('data/cv.json'), /Invalid CV data filename/);
-      assert.throws(() => extractLangFromPath('data/cv.fra.json'), /Invalid CV data filename/);
+      assert.throws(() => extractLangFromPath('data/cv.schema.json'), /Invalid CV data filename/);
+      assert.throws(() => extractLangFromPath('data/cv.toolong.json'), /Invalid CV data filename/);
     });
   });
 });

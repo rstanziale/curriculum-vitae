@@ -152,7 +152,7 @@
               font-style: italic;
             }
 
-            .sidebar__section-highlighted {
+            .sidebar__section-highlight {
               font-weight: var(--font-weight-bold);
             }
 
@@ -161,10 +161,8 @@
             }
 
             .sidebar__section-stack {
-              display: flex;
-              flex-wrap: wrap;
-              align-items: center;
-              justify-content: space-between;
+              width: 100%;
+              text-align: justify;
               font-size: var(--font-size-sm);
             }
 
@@ -281,7 +279,11 @@
           <p class="sidebar__section-title">{{labels.languages}}</p>
           <div class="sidebar__list sidebar__list--column">
             {{#each languages}}
-            <span>{{this.name}} ({{this.level}})</span>
+            <div class="sidebar__list--row">
+              <span>{{this.name}}</span>
+              <span class="sidebar__section-separator"> · </span>
+              <span class="sidebar__section-subtitle">{{this.level}}</span>
+            </div>
             {{/each}}
           </div>
         </section>
@@ -335,7 +337,7 @@
               {{#each this.techStack}}
               <span>{{this}}</span>
               {{#unless @last}}
-              <span class="sidebar__section-separator"> | </span>
+              <span class="sidebar__section-separator"> · </span>
               {{/unless}}
               {{/each}}
             </div>
@@ -361,7 +363,7 @@
             <div class="sidebar__list--column">
               <p class="sidebar__section-subtitle">{{this.title}}</p>
               <div class="sidebar__list--row">
-                <span class="sidebar__section-highlighted">{{this.period.from}}</span>
+                <span class="sidebar__section-highlight">{{this.period.from}}</span>
                 <span class="sidebar__section-separator"> / </span>
                 <span>{{this.period.to}}</span>
               </div>
@@ -377,7 +379,7 @@
               <p>{{education.institution}}</p>
               <span class="sidebar__section-subtitle">{{education.field}}</span>
               <div class="sidebar__list--row">
-                <span class="sidebar__section-highlighted">{{education.grade}}</span>
+                <span class="sidebar__section-highlight">{{education.grade}}</span>
                 {{#if education.maxGrade}}
                 <span class="sidebar__section-separator"> / </span>
                 <span>{{education.maxGrade}}</span>

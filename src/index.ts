@@ -1,15 +1,15 @@
+import fs from 'node:fs/promises';
 import path from 'node:path';
 
 import type { TemplateDelegate } from 'handlebars';
 
-import { resolvePaths } from './config/paths.ts';
+import { CV_TEMPLATE_NAME, resolvePaths } from './config/paths.ts';
 import { getCvTag } from './config/tag.ts';
 import { extractLangFromPath, loadCvData } from './data/loader.ts';
 import { validateCvData } from './data/validator.ts';
 import { generatePdf } from './pdf/generator.ts';
 import { getPdfOptions } from './pdf/options.ts';
 import { createTemplateRegistry, getTemplate } from './template/registry.ts';
-import { ensureDir, readFile } from './utils/fs.ts';
 import { formatDuration } from './utils/timing.ts';
 
 //#region public methods
@@ -21,14 +21,14 @@ export async function build(): Promise<void> {
   const overallStart = performance.now();
   const paths = resolvePaths();
   const tag = getCvTag();
-  const schema = JSON.parse(await readFile(paths.schemaPath)) as object;
+  const schema = JSON.parse(await fs.readFile(paths.schemaPath, 'utf8')) as object;
 
-  await ensureDir(paths.distDir);
+  await fs.mkdir(paths.distDir, { recursive: true });
 
   const templateRegistry = await createTemplateRegistry(paths.templatesDir);
-  const template = getTemplate(templateRegistry, 'cv');
+  const template = getTemplate(templateRegistry, CV_TEMPLATE_NAME);
 
-  const dataFiles = ['cv.ita.json', 'cv.eng.json'];
+  const dataFiles = await discoverCvDataFiles(paths.dataDir, paths.schemaPath);
 
   for (const dataFile of dataFiles) {
     await buildForLanguage(dataFile, paths, schema, template, tag);
@@ -44,6 +44,28 @@ export async function build(): Promise<void> {
 
 //#region private methods
 
+/**
+ * Discovers CV data files in data directory, excluding schema file
+ * @param dataDir - Data directory path
+ * @param schemaPath - Schema file path to exclude
+ * @returns Filtered list of cv.*.json files
+ */
+export async function discoverCvDataFiles(dataDir: string, schemaPath: string): Promise<string[]> {
+  const files = await fs.readdir(dataDir);
+  const schemaBase = path.basename(schemaPath);
+  const cvPattern = /^cv\.[a-z]{2,3}\.json$/i;
+  return files.filter(file => file !== schemaBase && cvPattern.test(file));
+}
+
+/**
+ * Builds PDF for a single language version
+ * @param dataFile - CV data filename (e.g. cv.ita.json)
+ * @param paths - Resolved project paths
+ * @param schema - JSON schema object for validation
+ * @param template - Compiled Handlebars template delegate
+ * @param tag - Version tag for output filename
+ * @throws If data loading, validation, or PDF generation fails
+ */
 async function buildForLanguage(
   dataFile: string,
   paths: ReturnType<typeof resolvePaths>,
