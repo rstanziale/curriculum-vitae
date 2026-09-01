@@ -15,14 +15,14 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "prepare": "husky",
     "compile": "tsc --noEmit",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "build": "pnpm run build:prod",
     "build:dev": "node --env-file=.env src/index.ts",
     "build:prod": "node src/index.ts",
-    "test": "node --test",
-    "prepare": "husky"
+    "test": "node --test"
   },
   "dependencies": {
     "ajv": "^8.20.0",

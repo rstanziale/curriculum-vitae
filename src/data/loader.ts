@@ -2,24 +2,17 @@ import fs from 'node:fs/promises';
 
 import type { CvData } from './types.ts';
 
-type FileReader = (path: string) => Promise<string>;
-
 //#region public methods
 
 /**
  * Loads CV data from JSON file, replacing ENV_* placeholders
  * @param dataPath - Path to the CV data JSON file
  * @param env - Environment variables for placeholder replacement
- * @param readFile - Optional custom file reader for testing
  * @returns Parsed and validated CV data
  * @throws If file cannot be read or parsed
  */
-export async function loadCvData(
-  dataPath: string,
-  env: NodeJS.ProcessEnv,
-  readFile?: FileReader
-): Promise<CvData> {
-  const raw = await (readFile?.(dataPath) ?? fs.readFile(dataPath, 'utf8'));
+export async function loadCvData(dataPath: string, env: NodeJS.ProcessEnv): Promise<CvData> {
+  const raw = await fs.readFile(dataPath, 'utf8');
   const filled = replaceEnvPlaceholders(raw, env);
   return parseCvData(filled);
 }
@@ -27,18 +20,18 @@ export async function loadCvData(
 /**
  * Extracts language code from data filename (cv.ita.json → 'ITA')
  * @param dataPath - Path to the CV data file
- * @returns Language code ('ITA' or 'ENG')
+ * @returns Language code (uppercase, e.g. 'ITA', 'ENG', 'FRA')
  * @throws If filename format is invalid
  */
-export function extractLangFromPath(dataPath: string): 'ITA' | 'ENG' {
+export function extractLangFromPath(dataPath: string): string {
   const fileName = dataPath.replaceAll('\\', '/').split('/').pop() ?? '';
-  const match = new RegExp(/^cv\.(ita|eng)\.json$/i).exec(fileName);
+  const match = new RegExp(/^cv\.([a-z]{2,3})\.json$/i).exec(fileName);
   if (!match) {
     throw new Error(
-      `Invalid CV data filename format: ${fileName}. Expected cv.ita.json or cv.eng.json`
+      `Invalid CV data filename format: ${fileName}. Expected cv.<lang>.json (e.g. cv.ita.json)`
     );
   }
-  return match[1].toUpperCase() as 'ITA' | 'ENG';
+  return match[1].toUpperCase();
 }
 
 //#endregion

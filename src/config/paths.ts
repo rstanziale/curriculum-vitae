@@ -1,5 +1,7 @@
 import path from 'node:path';
 
+export const CV_TEMPLATE_NAME = 'cv' as const;
+
 export interface Paths {
   projectRoot: string;
   dataDir: string;
