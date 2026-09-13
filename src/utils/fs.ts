@@ -1,5 +1,4 @@
 import fs from 'node:fs/promises';
-import path from 'node:path';
 
 //#region public methods
 
@@ -14,12 +13,32 @@ export async function readFile(filePath: string): Promise<string> {
 }
 
 /**
+ * Reads a file as Buffer (binary)
+ * @param filePath - Path to the file
+ * @returns File content as Buffer
+ * @throws If file cannot be read
+ */
+export async function readFileBuffer(filePath: string): Promise<Buffer> {
+  return fs.readFile(filePath);
+}
+
+/**
  * Ensures a directory exists, creating it recursively if needed
  * @param dir - Directory path
  * @throws If directory cannot be created
  */
 export async function ensureDir(dir: string): Promise<void> {
   await fs.mkdir(dir, { recursive: true });
+}
+
+/**
+ * Reads directory entries
+ * @param dirPath - Directory path
+ * @returns List of file and directory names
+ * @throws If directory cannot be read
+ */
+export async function readdir(dirPath: string): Promise<string[]> {
+  return fs.readdir(dirPath);
 }
 
 /**
@@ -34,15 +53,6 @@ export async function exists(filePath: string): Promise<boolean> {
   } catch {
     return false;
   }
-}
-
-/**
- * Resolves a path relative to the project root
- * @param relativePath - Path relative to project root
- * @returns Absolute path
- */
-export function resolvePath(relativePath: string): string {
-  return path.resolve(relativePath);
 }
 
 //#endregion

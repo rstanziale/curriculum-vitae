@@ -2,6 +2,8 @@
 
 Generate versioned, single-page A4 PDFs of Roberto Stanziale's CV from typed JSON + Handlebars, via Playwright.
 
+> Sanitized CVs without personal information are available on the [Releases](https://github.com/rstanziale/curriculum-vitae/releases) page.
+
 ## How it works
 
 ```mermaid

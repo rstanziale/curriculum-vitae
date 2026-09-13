@@ -1,11 +1,10 @@
 /**
- * Personal information section of the CV
+ * Personal and contact information of the candidate
  */
 export interface PersonalInfo {
   firstName: string;
   secondName?: string;
   surname: string;
-  subtitle: string;
   phone: string;
   email: string;
   linkedin?: string;
@@ -13,7 +12,7 @@ export interface PersonalInfo {
 }
 
 /**
- * Labels for CV sections (localized)
+ * Localized labels for CV section headings
  */
 export interface Labels {
   aboutMe: string;
@@ -21,10 +20,13 @@ export interface Labels {
   skills: string;
   softSkills: string;
   hobbies: string;
+  experience: string;
+  certifications: string;
+  education: string;
 }
 
 /**
- * Language proficiency entry
+ * A spoken language with proficiency level
  */
 export interface Language {
   name: string;
@@ -32,7 +34,61 @@ export interface Language {
 }
 
 /**
- * Complete CV data structure
+ * A highlight with title and description within a work experience
+ */
+export interface Highlight {
+  title: string;
+  description: string;
+}
+
+/**
+ * A single work experience entry
+ */
+export interface WorkExperience {
+  company: string;
+  period: string;
+  role: string;
+  techStack: string[];
+  highlights: Highlight[];
+}
+
+/**
+ * Validity period of a certification
+ */
+export interface CertificationPeriod {
+  from: string;
+  to?: string;
+}
+
+/**
+ * A single certification entry
+ */
+export interface Certification {
+  title: string;
+  period: CertificationPeriod;
+}
+
+/**
+ * A single degree entry within education
+ */
+export interface Degree {
+  level: string;
+  thesisTitle: string;
+}
+
+/**
+ * Academic background of the candidate
+ */
+export interface Education {
+  institution: string;
+  field: string;
+  grade: string;
+  maxGrade?: string;
+  degrees: Degree[];
+}
+
+/**
+ * Complete CV data structure for a single language
  */
 export interface CvData {
   personalInfo: PersonalInfo;
@@ -42,4 +98,8 @@ export interface CvData {
   hardSkills: string[];
   softSkills: string[];
   hobbies: string[];
+  workExperience: WorkExperience[];
+  certifications: Certification[];
+  education: Education;
+  gdprConsent?: string;
 }

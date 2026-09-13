@@ -7,5 +7,5 @@ export const DEFAULT_TAG = 'test';
  */
 export function getCvTag(env: NodeJS.ProcessEnv = process.env): string {
   const raw = env.CV_TAG?.trim();
-  return raw ? raw : DEFAULT_TAG;
+  return raw || DEFAULT_TAG;
 }

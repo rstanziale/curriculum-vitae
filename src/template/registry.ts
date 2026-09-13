@@ -1,7 +1,7 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
 import handlebars from 'handlebars';
+
+import { readdir, readFile } from '../utils/fs.ts';
+import { basename, joinPath } from '../utils/path.ts';
 
 export interface TemplateRegistry {
   templates: Map<string, handlebars.TemplateDelegate>;
@@ -16,12 +16,12 @@ export interface TemplateRegistry {
  */
 export async function createTemplateRegistry(templateDir: string): Promise<TemplateRegistry> {
   const templates = new Map<string, handlebars.TemplateDelegate>();
-  const files = await fs.readdir(templateDir);
+  const files = await readdir(templateDir);
 
   for (const file of files) {
     if (file.endsWith('.html')) {
-      const name = path.basename(file, '.html');
-      const source = await fs.readFile(path.join(templateDir, file), 'utf8');
+      const name = basename(file, '.html');
+      const source = await readFile(joinPath(templateDir, file));
       templates.set(name, handlebars.compile(source));
     }
   }

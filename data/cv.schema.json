@@ -1,32 +1,44 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "CurriculumVitae Complete Schema",
+  "description": "Complete JSON Schema for a single-language Curriculum Vitae document",
   "type": "object",
   "properties": {
     "personalInfo": {
+      "description": "Personal and contact information of the candidate",
       "type": "object",
       "properties": {
-        "firstName": { "type": "string" },
-        "secondName": { "type": "string" },
-        "surname": { "type": "string" },
-        "phone": { "type": "string" },
-        "email": { "type": "string" },
-        "linkedin": { "type": "string" },
-        "github": { "type": "string" }
+        "firstName": { "description": "Candidate's first name", "type": "string" },
+        "secondName": { "description": "Candidate's middle name", "type": "string" },
+        "surname": { "description": "Candidate's surname", "type": "string" },
+        "phone": {
+          "description": "Contact phone number, may be ENV_PHONE placeholder replaced at build time",
+          "type": "string"
+        },
+        "email": {
+          "description": "Contact email address, may be ENV_EMAIL placeholder replaced at build time",
+          "type": "string"
+        },
+        "linkedin": { "description": "LinkedIn profile handle or slug", "type": "string" },
+        "github": { "description": "GitHub username", "type": "string" }
       },
       "required": ["firstName", "surname", "phone", "email"]
     },
     "labels": {
+      "description": "Localized labels for CV section headings",
       "type": "object",
       "properties": {
-        "aboutMe": { "type": "string" },
-        "languages": { "type": "string" },
-        "skills": { "type": "string" },
-        "softSkills": { "type": "string" },
-        "hobbies": { "type": "string" },
-        "experience": { "type": "string" },
-        "certifications": { "type": "string" },
-        "education": { "type": "string" }
+        "aboutMe": { "description": "Label for the About Me section", "type": "string" },
+        "languages": { "description": "Label for the Languages section", "type": "string" },
+        "skills": { "description": "Label for the Skills section", "type": "string" },
+        "softSkills": { "description": "Label for the Soft Skills section", "type": "string" },
+        "hobbies": { "description": "Label for the Hobbies section", "type": "string" },
+        "experience": { "description": "Label for the Work Experience section", "type": "string" },
+        "certifications": {
+          "description": "Label for the Certifications section",
+          "type": "string"
+        },
+        "education": { "description": "Label for the Education section", "type": "string" }
       },
       "required": [
         "aboutMe",
@@ -39,49 +51,65 @@
         "education"
       ]
     },
-    "aboutMe": { "type": "string" },
+    "aboutMe": {
+      "description": "Professional summary or biography of the candidate",
+      "type": "string"
+    },
     "languages": {
+      "description": "List of spoken languages with proficiency levels",
       "type": "array",
       "items": {
+        "description": "A spoken language with proficiency",
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "level": { "type": "string" }
+          "name": { "description": "Language name", "type": "string" },
+          "level": { "description": "Proficiency level for the language", "type": "string" }
         },
         "required": ["name", "level"]
       }
     },
     "hardSkills": {
+      "description": "List of technical hard skills",
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "description": "A single technical skill", "type": "string" }
     },
     "softSkills": {
+      "description": "List of interpersonal soft skills",
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "description": "A single soft skill", "type": "string" }
     },
     "hobbies": {
+      "description": "List of personal hobbies and interests",
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "description": "A single hobby or interest", "type": "string" }
     },
     "workExperience": {
+      "description": "List of work experiences",
       "type": "array",
       "items": {
+        "description": "A single work experience entry",
         "type": "object",
         "properties": {
-          "company": { "type": "string" },
-          "period": { "type": "string" },
-          "role": { "type": "string" },
+          "company": { "description": "Employer company name", "type": "string" },
+          "period": {
+            "description": "Employment period, e.g. Sep 2018 / Present",
+            "type": "string"
+          },
+          "role": { "description": "Job role or title held", "type": "string" },
           "techStack": {
+            "description": "Technologies and tools used in the role",
             "type": "array",
-            "items": { "type": "string" }
+            "items": { "description": "A single technology or tool", "type": "string" }
           },
           "highlights": {
+            "description": "Key achievements and responsibilities in the role",
             "type": "array",
             "items": {
+              "description": "A highlight with title and description",
               "type": "object",
               "properties": {
-                "title": { "type": "string" },
-                "description": { "type": "string" }
+                "title": { "description": "Highlight title", "type": "string" },
+                "description": { "description": "Highlight description", "type": "string" }
               },
               "required": ["title", "description"]
             }
@@ -91,37 +119,49 @@
       }
     },
     "certifications": {
+      "description": "List of professional certifications",
       "type": "array",
       "items": {
+        "description": "A single certification entry",
         "type": "object",
         "properties": {
-          "title": { "type": "string" },
+          "title": { "description": "Certification title", "type": "string" },
           "period": {
+            "description": "Certification validity period",
             "type": "object",
             "properties": {
-              "from": { "type": "string" },
-              "to": { "type": "string" }
+              "from": { "description": "Certification start date", "type": "string" },
+              "to": {
+                "description": "Certification end or expiry date, if applicable - omit for certifications without expiration",
+                "type": "string"
+              }
             },
-            "required": ["from", "to"]
+            "required": ["from"]
           }
         },
         "required": ["title", "period"]
       }
     },
     "education": {
+      "description": "Academic background of the candidate",
       "type": "object",
       "properties": {
-        "institution": { "type": "string" },
-        "field": { "type": "string" },
-        "grade": { "type": "string" },
-        "maxGrade": { "type": "string" },
+        "institution": { "description": "Name of the educational institution", "type": "string" },
+        "field": { "description": "Field of study", "type": "string" },
+        "grade": { "description": "Final grade obtained", "type": "string" },
+        "maxGrade": { "description": "Maximum achievable grade", "type": "string" },
         "degrees": {
+          "description": "List of degrees obtained",
           "type": "array",
           "items": {
+            "description": "A single degree entry",
             "type": "object",
             "properties": {
-              "level": { "type": "string" },
-              "thesisTitle": { "type": "string" }
+              "level": {
+                "description": "Degree level, e.g. Bachelor's or Master's",
+                "type": "string"
+              },
+              "thesisTitle": { "description": "Thesis title", "type": "string" }
             },
             "required": ["level", "thesisTitle"]
           }
@@ -129,7 +169,10 @@
       },
       "required": ["institution", "field", "grade", "degrees"]
     },
-    "gdprConsent": { "type": "string" }
+    "gdprConsent": {
+      "description": "GDPR consent statement for personal data processing",
+      "type": "string"
+    }
   },
   "required": [
     "personalInfo",

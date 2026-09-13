@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { afterEach, describe, it, mock } from 'node:test';
 
-import { ensureDir, exists, readFile, resolvePath } from '../../src/utils/fs.ts';
+import { ensureDir, exists, readdir, readFile, readFileBuffer } from '../../src/utils/fs.ts';
 
 describe('utils/fs.ts', () => {
   afterEach(() => {
@@ -55,12 +55,39 @@ describe('utils/fs.ts', () => {
     });
   });
 
-  describe('resolvePath', () => {
-    it('resolves relative path', () => {
-      const resolved = resolvePath('data/file.json');
-      assert.ok(resolved.includes('data'));
-      assert.ok(resolved.includes('file.json'));
-      assert.ok(resolved.startsWith('/') || resolved.match(/^[A-Za-z]:/));
+  describe('readFileBuffer', () => {
+    it('reads file as buffer', async () => {
+      const expected = Buffer.from('binary content');
+      mock.method(fs, 'readFile', async () => expected);
+      const content = await readFileBuffer('font.ttf');
+      assert.ok(content instanceof Buffer);
+      assert.strictEqual(content.toString(), 'binary content');
+    });
+
+    it('throws on binary read error', async () => {
+      mock.method(fs, 'readFile', async () => {
+        throw new Error('ENOENT');
+      });
+      await assert.rejects(readFileBuffer('font.ttf'), /ENOENT/);
+    });
+  });
+
+  describe('readdir', () => {
+    it('reads directory entries', async () => {
+      mock.method(
+        fs,
+        'readdir',
+        async () => ['a.txt', 'b.txt'] as unknown as Awaited<ReturnType<typeof fs.readdir>>
+      );
+      const entries = await readdir('some/dir');
+      assert.deepStrictEqual(entries, ['a.txt', 'b.txt']);
+    });
+
+    it('throws on readdir error', async () => {
+      mock.method(fs, 'readdir', async () => {
+        throw new Error('ENOENT');
+      });
+      await assert.rejects(readdir('some/dir'), /ENOENT/);
     });
   });
 });

@@ -29,7 +29,7 @@ export function validateCvData(data: unknown, schema: object): asserts data is C
  * @returns Compiled validator function
  */
 function createValidator(schema: object): ValidateFunction {
-  const ajv = new Ajv({ allErrors: true, strict: false });
+  const ajv = new Ajv({ allErrors: true, strict: true });
   return ajv.compile(schema);
 }
 

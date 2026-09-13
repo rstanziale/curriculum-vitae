@@ -1,6 +1,3 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
 import type { TemplateDelegate } from 'handlebars';
 
 import { CV_TEMPLATE_NAME, resolvePaths } from './config/paths.ts';
@@ -10,6 +7,8 @@ import { validateCvData } from './data/validator.ts';
 import { generatePdf } from './pdf/generator.ts';
 import { getPdfOptions } from './pdf/options.ts';
 import { createTemplateRegistry, getTemplate } from './template/registry.ts';
+import { ensureDir, readdir, readFile } from './utils/fs.ts';
+import { basename, joinPath } from './utils/path.ts';
 import { formatDuration } from './utils/timing.ts';
 
 //#region public methods
@@ -21,9 +20,9 @@ export async function build(): Promise<void> {
   const overallStart = performance.now();
   const paths = resolvePaths();
   const tag = getCvTag();
-  const schema = JSON.parse(await fs.readFile(paths.schemaPath, 'utf8')) as object;
+  const schema = JSON.parse(await readFile(paths.schemaPath)) as object;
 
-  await fs.mkdir(paths.distDir, { recursive: true });
+  await ensureDir(paths.distDir);
 
   const templateRegistry = await createTemplateRegistry(paths.templatesDir);
   const template = getTemplate(templateRegistry, CV_TEMPLATE_NAME);
@@ -51,8 +50,8 @@ export async function build(): Promise<void> {
  * @returns Filtered list of cv.*.json files
  */
 export async function discoverCvDataFiles(dataDir: string, schemaPath: string): Promise<string[]> {
-  const files = await fs.readdir(dataDir);
-  const schemaBase = path.basename(schemaPath);
+  const files = await readdir(dataDir);
+  const schemaBase = basename(schemaPath);
   const cvPattern = /^cv\.[a-z]{2,3}\.json$/i;
   return files.filter(file => file !== schemaBase && cvPattern.test(file));
 }
@@ -74,10 +73,10 @@ async function buildForLanguage(
   tag: string
 ): Promise<void> {
   const start = performance.now();
-  const dataPath = path.join(paths.dataDir, dataFile);
+  const dataPath = joinPath(paths.dataDir, dataFile);
   const lang = extractLangFromPath(dataPath);
   const outputFileName = `CV_RBS_${lang}-${tag}.pdf`;
-  const outputPath = path.join(paths.distDir, outputFileName);
+  const outputPath = joinPath(paths.distDir, outputFileName);
 
   console.log(`📄 Building ${lang} version...`);
 
