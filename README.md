@@ -116,6 +116,14 @@ Product constraints the pipeline enforces:
 - **Self-contained HTML** — a `<base>` tag is injected so relative asset paths resolve without a server.
 - **Versioned output** — each PDF is named `CV_RBS_{LANG}-{tag}.pdf` from `CV_TAG` (defaults to `test`).
 
+## AI Harness
+
+> This project is designed to support AI-assisted CV refinement without compromising the integrity of the document.
+
+[OpenCode](https://opencode.ai/) can be used as the AI harness for this workflow: it analyzes a job description, compares it with the structured CV data, and suggests targeted changes to `aboutMe` and `workExperience` based on real strengths and role requirements rather than inventing qualifications. The same agent can use the repository's project-specific `skills` and `tools` to tailor the message to the target role, keep the wording consistent across languages, and apply the updates through the structured JSON workflow used by the generator.
+
+Once the content is approved, the generator rebuilds the PDFs and verifies that formatting still stays within the A4 single-page constraints.
+
 ## Output
 
 The following PDFs are generated in `dist/` when the build succeeds:

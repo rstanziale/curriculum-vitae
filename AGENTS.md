@@ -66,13 +66,3 @@ Report which checks ran, which failed, and which could not run before finishing.
 ## Security considerations
 
 - Never commit `PERSONAL_PHONE` / `PERSONAL_EMAIL`. `data/*.json` uses `ENV_PHONE` / `ENV_EMAIL` placeholders replaced at load time (`src/data/loader.ts:54`).
-
-## PR instructions
-
-- Conventional Commits via commitlint `package.json:42` (`@commitlint/config-conventional`): `feat|fix|docs|refactor|test|chore: description`.
-- Husky + lint-staged `package.json:47` runs `biome check --write` on `**/*.{js,ts,json,html}` pre-commit. Always run `pnpm run lint && pnpm test` before committing.
-- Validate with the four checks above; PR should pass all before merge.
-
-## When to add a SKILL.md
-
-Repository-wide rules belong here. Procedures that apply only to a class of work (e.g. `design-to-component`, `pdf-layout-review`) belong in a `SKILL.md` with progressive disclosure (`name`/`description` ~100 tokens at startup, full body on activation, resources on demand) per [agentskills.io/specification](https://agentskills.io/specification). Start portable (`AGENTS.md`/`SKILL.md`) and add tool-specific layers (`.github/copilot-instructions.md`, `*.instructions.md`, `*.agent.md`, `*.prompt.md`) only when needed — and keep this file as the source of truth to avoid drift.
