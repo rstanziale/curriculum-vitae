@@ -1,18 +1,18 @@
 ---
 name: content-tailoring
-description: Guidelines and rules for customizing, rephrasing, and emphasizing work experiences and profile summaries based on a target Job Description, ensuring strict compliance with cv.schema.json.
+description: Guidelines and rules for customizing, rephrasing, and emphasizing work experiences and profile summaries, ensuring strict compliance with cv.schema.json.
 ---
 
 # Skill: Content Tailoring
 
-Use this skill when modifying CV sections (`aboutMe`, `workExperience`) to closely match the key requirements, terminology, and tech stack extracted from a target Job Description (JD). 
+Use this skill when modifying CV sections (`aboutMe`, `workExperience`) to improve candidate's information. If a job URL is provided, the content must be tailored to closely match the key requirements, terminology, and tech stack extracted from a target Job Description (JD). 
 
 All content modifications MUST strictly comply with the structural and type constraints defined in `cv.schema.json`.
 
 ## 1. Source of Truth
 
-- `.opencode/other/about-me.md` to extract relevant information for the "About Me" section.
-- every `.opencode/experiences/<ORDER>-<COMPANY>.md` to extract relevant information for the "Work Experiences" section:
+- `.opencode/context/other/about-me.md` to extract relevant information for the "About Me" section.
+- every `.opencode/context/experiences/<ORDER>-<COMPANY>.md` to extract relevant information for the "Work Experiences" section:
     - where `<ORDER>` is the order of the experience and `<COMPANY>` is the name of the company. Analyze them in reverse order and focus on the most recent experiences first.
 
 ## 2. Schema Structural Compliance (`cv.schema.json`)
