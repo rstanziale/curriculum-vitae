@@ -12,6 +12,7 @@ const tag = getCvTag();
 const outputDir = path.resolve('./dist');
 const cvItaData = JSON.parse(await fs.readFile('./data/cv.ita.json', 'utf8')) as {
   personalInfo: { surname: string };
+  gdprConsent: string;
 };
 const expectedSurname = cvItaData.personalInfo.surname;
 
@@ -53,6 +54,22 @@ describe('CV Integration Tests', () => {
         new RegExp(expectedSurname),
         `Surname ${expectedSurname} not found in PDF text`
       );
+    });
+
+    it('PDF should contain the external GDPR footer', async () => {
+      const pdfBuffer = await fs.readFile(pdfPath);
+      const parser = new PDFParse({ data: pdfBuffer });
+      const pdfData = await parser.getText();
+      await parser.destroy();
+
+      const normalizedFooter = cvItaData.gdprConsent.replace(/\s+/g, ' ');
+      assert.ok(pdfData.pages.length > 0, 'PDF should contain at least one page');
+      for (const page of pdfData.pages) {
+        assert.ok(
+          page.text.replace(/\s+/g, ' ').includes(normalizedFooter),
+          `GDPR footer not found on page ${page.num}`
+        );
+      }
     });
   });
 

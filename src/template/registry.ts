@@ -3,6 +3,11 @@ import handlebars from 'handlebars';
 import { readdir, readFile } from '../utils/fs.ts';
 import { basename, joinPath } from '../utils/path.ts';
 
+export const TEMPLATE_NAME = {
+  CV: 'cv' as const,
+  FOOTER: 'footer' as const,
+};
+
 export interface TemplateRegistry {
   templates: Map<string, handlebars.TemplateDelegate>;
 }

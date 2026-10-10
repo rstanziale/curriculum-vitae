@@ -27,6 +27,9 @@ interface GeneratedOptions {
   path?: string;
   format?: 'A4';
   printBackground?: boolean;
+  displayHeaderFooter?: boolean;
+  headerTemplate?: string;
+  footerTemplate?: string;
   margin?: { top: string; right: string; bottom: string; left: string };
 }
 
@@ -58,9 +61,14 @@ describe('pdf/generator.ts', () => {
         launch: mock.fn(async () => mockBrowser as unknown as Browser),
       };
 
-      const html = '<html><body><div class="a4-page">Test</div></body></html>';
+      const html =
+        '<html><head><style>:root { --page-margin: 20mm; }</style></head><body><div class="a4-page">Test</div></body></html>';
       const outputPath = '/tmp/test.pdf';
-      const options = getPdfOptions();
+      const options = getPdfOptions({
+        withFooter: true,
+        footerTemplate:
+          "<style>@font-face{src:url('../assets/fonts/Montserrat-Regular.ttf')}</style><div>Consent</div>",
+      });
 
       await generatePdf(html, outputPath, options, browserFactory as unknown as BrowserFactory);
 
@@ -74,14 +82,19 @@ describe('pdf/generator.ts', () => {
 
       assert.strictEqual(generatedPath, outputPath);
       assert.match(setContentHtml, /<base\s+href=/i);
+      assert.match(setContentHtml, /--page-margin:\s*20mm 20mm 30mm 20mm;/);
       const opts = generatedOptions as unknown as GeneratedOptions;
       assert.strictEqual(opts.format, 'A4');
       assert.strictEqual(opts.printBackground, true);
+      assert.strictEqual(opts.displayHeaderFooter, true);
+      assert.strictEqual(opts.headerTemplate, '<div></div>');
+      assert.match(opts.footerTemplate ?? '', /data:font\/truetype;base64,/);
+      assert.match(opts.footerTemplate ?? '', /<div>Consent<\/div>/);
       assert.deepStrictEqual(opts.margin, {
-        top: '0mm',
-        right: '0mm',
-        bottom: '0mm',
-        left: '0mm',
+        top: '20mm',
+        right: '20mm',
+        bottom: '30mm',
+        left: '20mm',
       });
 
       mock.restoreAll();
