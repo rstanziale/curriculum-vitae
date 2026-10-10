@@ -3,4 +3,7 @@ description: Update the CV with new information, ensuring it reflects current sk
 agent: technical-recruiter
 ---
 
-Update the CV by using `$1` job URL if provided.
+Update the CV by using the experiences and personal information provided in the `.opencode/context/` subfolders.
+
+If provided, use the following Job Description URL to analyze the requirements and tailor the CV accordingly:
+`$1`
