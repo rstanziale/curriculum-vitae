@@ -19,10 +19,16 @@
     "certifications": "Certificazioni",
     "education": "Formazione"
   },
-  "aboutMe": "Software Developer esperto in TypeScript e Angular, con un forte orientamento alla semplicità e alla manutenibilità del software. Credo fermamente che l'efficacia di un prodotto risieda nella semplicità: applico un approccio pragmatico per ridurre la complessità tecnica, traducendola in codice pulito e documentazione snella e facilmente accessibile. Oltre a questo, grazie alla mia empatia e alla mia attitudine spiccata all'auto-apprendimento, agisco come facilitatore nel mio team, promuovendo una sinergia che permette a tutti i membri di avanzare verso obiettivi comuni in modo più rapido e senza troppi ostacoli. Queste attitudini mi sono utili anche fuori dal lavoro, dove ricopro la carica di segretario con funzioni di tesoreria per un'associazione culturale in cui mi ritrovo a redigere verbali e bilanci.",
+  "aboutMe": "Senior Software Engineer specializzato in TypeScript, Angular, Node.js, Java e MongoDB. Filosofia centrale: semplicità pragmatica—previene l'over-engineering per codice pulito, manutenibile e documentazione accessibile. Facilitatore di team e mentore empatico, guida apprendimento continuo ed efficienza onboarding. Conduce R&D interno: Go Onboarding CLI Tool (automatizza health check/Git Flow), TypeScript Workflow Engine (motore open-source paradigmi esecuzione), TypeSpec API Toolkit (scaffolding DX + generazione OpenAPI automatica). Fuori dall'ingegneria: Segretario con funzioni di tesoreria per associazione culturale RUNTS, dirige admin/compliance finanziaria, redige verbali consiglio e bilanci annuali.",
   "languages": [
-    { "name": "Italiano", "level": "madrelingua" },
-    { "name": "Inglese", "level": "B2" }
+    {
+      "name": "Italiano",
+      "level": "madrelingua"
+    },
+    {
+      "name": "Inglese",
+      "level": "B2"
+    }
   ],
   "hardSkills": [
     "TypeScript / Javascript",
@@ -54,39 +60,43 @@
     {
       "company": "DEDALUS ITALIA S.p.A.",
       "period": "set 2018 / oggi",
-      "role": "Software Developer",
+      "role": "Software Engineer",
       "techStack": [
-        "Typescript",
+        "TypeScript",
         "Angular",
         "PrimeNG",
         "Bootstrap",
-        "NodeJS",
+        "Node.js",
         "Java",
         "Vert.x",
         "MongoDB",
-        "Git",
-        "GitHub",
         "Docker",
         "OKD",
+        "Git",
+        "GitHub",
         "Confluence",
         "Jira"
       ],
       "highlights": [
         {
-          "title": "Sviluppo",
-          "description": "Responsabile dello sviluppo di interi moduli del prodotto core, occupandomi della definizione di modelli dati e servizi REST con un focus costante sul contenimento della complessità architetturale."
+          "title": "Ingegneria Prodotto Core",
+          "description": "Guida sviluppo end-to-end suite refertazione Anatomia Patologica; mantiene monorepo Angular, costruisce backend event-driven Vert.x/Node.js/MongoDB per strutture sanitarie."
         },
         {
-          "title": "Documentazione",
-          "description": "Aggiorno attivamente la documentazione di prodotto dove riporto standard e convenzioni adottate in modo da facilitare processi di onboarding. Inoltre, ricerco nuovi strumenti per migliorare la parte documentale del prodotto, come nel caso dell'adottamento di TypeSpec che ha permesso di generare documentazione API in modo più rapido rispetto alla produzione manuale del file Swagger, aumentando la developer experience."
+          "title": "Architettura & Design API",
+          "description": "Definisce specifiche tecniche, modelli dati, API REST con Architetto Prodotto; costruisce layer integrazione per sistemi enterprise ospedalieri e aggregazione dati clinici."
         },
         {
-          "title": "Supporto delivery",
-          "description": "Riscontrando una eccessiva ripetitività delle segnalazioni di errore, ho definito casi d'uso semplificati per la delivery, rendendo più semplice l'indagine da parte della delivery e rendendo lo smistamento degli errori verso il team di competenza più veloce."
+          "title": "Integrazione AI & Developer Experience",
+          "description": "Implementa flussi AI per automatizzare task dev; adotta TypeSpec per docs API automatiche sostituendo Swagger manuale, migliorando significativamente developer experience."
         },
         {
-          "title": "Recruiting & Onboarding",
-          "description": "Partecipo allo screening tecnico di nuove risorse e il relativo percorso di onboarding. Ho facilitato l'onboarding di 5+ risorse, di cui 2 di esse alla piena autonomia operativa in circa 6 mesi."
+          "title": "Documentazione & Supporto Delivery",
+          "description": "Redige doc funzionali su Confluence/GitHub Wiki; supporta delivery in installazioni/upgrade, riducendo time-to-resolution problematiche."
+        },
+        {
+          "title": "Mentoring, Recruiting & Condivisione",
+          "description": "Mentora ingegneri riducendo time-to-autonomy a mesi; conduce interviste tecniche TypeScript/Angular; guida workshop su standard e risultati R&D."
         }
       ]
     }
@@ -94,7 +104,10 @@
   "certifications": [
     {
       "title": "AWS Certified Cloud Practitioner",
-      "period": { "from": "Novembre 2024", "to": "Novembre 2027" }
+      "period": {
+        "from": "Novembre 2024",
+        "to": "Novembre 2027"
+      }
     }
   ],
   "education": {

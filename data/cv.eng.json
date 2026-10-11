@@ -19,10 +19,16 @@
     "certifications": "Certifications",
     "education": "Education"
   },
-  "aboutMe": "Experienced Software Developer skilled in TypeScript and Angular, with a strong focus on simplicity and maintainability. I believe that a product's effectiveness lies in simplicity. I use a pragmatic approach to reduce technical complexity, turning it into clean code and clear, accessible documentation. Thanks to my empathy and strong self-learning attitude, I act as a facilitator within my team, promoting collaboration that helps everyone move toward shared goals more quickly and with fewer obstacles. These qualities also support me outside of work, where I serve as secretary and treasurer for a cultural association, managing meeting minutes and financial reports.",
+  "aboutMe": "Senior Software Engineer specializing in TypeScript, Angular, Node.js, Java, and MongoDB. Core philosophy: pragmatic simplicity—preventing over-engineering to deliver clean, maintainable code and accessible documentation. Acts as team facilitator and empathetic mentor, driving continuous learning and onboarding efficiency. Leads internal R&D: Go Onboarding CLI Tool (automates health checks/Git Flow), TypeScript Workflow Engine (open-source execution paradigms), TypeSpec API Toolkit (DX scaffolding + automated OpenAPI). Outside engineering: Secretary & Treasurer for RUNTS-registered cultural association, directing admin/financial compliance, authoring board minutes and annual balance sheets.",
   "languages": [
-    { "name": "Italian", "level": "mother tongue" },
-    { "name": "English", "level": "B2" }
+    {
+      "name": "Italian",
+      "level": "mother tongue"
+    },
+    {
+      "name": "English",
+      "level": "B2"
+    }
   ],
   "hardSkills": [
     "TypeScript / Javascript",
@@ -54,39 +60,43 @@
     {
       "company": "DEDALUS ITALIA S.p.A.",
       "period": "Sep 2018 / Present",
-      "role": "Software Developer",
+      "role": "Software Engineer",
       "techStack": [
-        "Typescript",
+        "TypeScript",
         "Angular",
         "PrimeNG",
         "Bootstrap",
-        "NodeJS",
+        "Node.js",
         "Java",
         "Vert.x",
         "MongoDB",
-        "Git",
-        "GitHub",
         "Docker",
         "OKD",
+        "Git",
+        "GitHub",
         "Confluence",
         "Jira"
       ],
       "highlights": [
         {
-          "title": "Development",
-          "description": "Responsible for building complete modules of the core product, defining data models and REST services while keeping architectural complexity under control."
+          "title": "Core Product Engineering",
+          "description": "Lead end-to-end development of Anatomical Pathology reporting suite; maintain Angular monorepo, build event-driven backend with Vert.x/Node.js/MongoDB for healthcare providers."
         },
         {
-          "title": "Documentation",
-          "description": "I actively update product documentation, outlining standards and conventions to ease onboarding. I also look for new tools to improve documentation, such as adopting TypeSpec to generate API docs more quickly than manually producing Swagger files, boosting developer experience."
+          "title": "Architecture & API Design",
+          "description": "Define technical specs, data models, REST APIs with Product Architect; build integration layers connecting to hospital enterprise systems for clinical data aggregation."
         },
         {
-          "title": "Delivery Support",
-          "description": "After noticing repeated error reports, I defined simplified use cases for delivery teams. This made investigation easier and improved routing of issues to the correct team."
+          "title": "AI Integration & Developer Experience",
+          "description": "Implement AI flows to automate dev tasks; adopted TypeSpec for automated API docs replacing manual Swagger, significantly boosting developer experience."
         },
         {
-          "title": "Recruiting & Onboarding",
-          "description": "I support technical screening and onboarding of new hires. I helped onboard more than 5 people, with 2 of them reaching full autonomy in about 6 months."
+          "title": "Documentation & Delivery Support",
+          "description": "Author functional docs on Confluence/GitHub Wiki; guide delivery teams through installations/upgrades, reducing issue resolution time."
+        },
+        {
+          "title": "Mentoring, Recruiting & Knowledge Sharing",
+          "description": "Mentor engineers reducing time-to-autonomy to months; conduct TypeScript/Angular technical interviews; lead workshops on standards and R&D findings."
         }
       ]
     }
@@ -94,7 +104,10 @@
   "certifications": [
     {
       "title": "AWS Certified Cloud Practitioner",
-      "period": { "from": "November 2024", "to": "November 2027" }
+      "period": {
+        "from": "November 2024",
+        "to": "November 2027"
+      }
     }
   ],
   "education": {
