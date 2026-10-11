@@ -4,7 +4,7 @@ import { readdir, readFile } from '../utils/fs.ts';
 import { basename, joinPath } from '../utils/path.ts';
 
 export const TEMPLATE_NAME = {
-  CV: 'cv' as const,
+  CV: 'two-columns' as const,
   FOOTER: 'footer' as const,
 };
 

@@ -5,7 +5,7 @@ import type { Browser } from 'playwright';
 
 import type { BrowserFactory } from '../../src/pdf/generator.ts';
 import { generatePdf } from '../../src/pdf/generator.ts';
-import { getPdfOptions } from '../../src/pdf/options.ts';
+import { FOOTER_HEIGHT_MM, getPdfOptions, PAGE_MARGIN_MM } from '../../src/pdf/options.ts';
 
 interface MockPage {
   setViewportSize: ReturnType<typeof mock.fn>;
@@ -82,7 +82,8 @@ describe('pdf/generator.ts', () => {
 
       assert.strictEqual(generatedPath, outputPath);
       assert.match(setContentHtml, /<base\s+href=/i);
-      assert.match(setContentHtml, /--page-margin:\s*20mm 20mm 30mm 20mm;/);
+      const expectedMargin = `${PAGE_MARGIN_MM}mm ${PAGE_MARGIN_MM}mm ${PAGE_MARGIN_MM + FOOTER_HEIGHT_MM}mm ${PAGE_MARGIN_MM}mm`;
+      assert.match(setContentHtml, new RegExp(`--page-margin:\\s*${expectedMargin};`));
       const opts = generatedOptions as unknown as GeneratedOptions;
       assert.strictEqual(opts.format, 'A4');
       assert.strictEqual(opts.printBackground, true);
@@ -91,10 +92,10 @@ describe('pdf/generator.ts', () => {
       assert.match(opts.footerTemplate ?? '', /data:font\/truetype;base64,/);
       assert.match(opts.footerTemplate ?? '', /<div>Consent<\/div>/);
       assert.deepStrictEqual(opts.margin, {
-        top: '20mm',
-        right: '20mm',
-        bottom: '30mm',
-        left: '20mm',
+        top: `${PAGE_MARGIN_MM}mm`,
+        right: `${PAGE_MARGIN_MM}mm`,
+        bottom: `${PAGE_MARGIN_MM + FOOTER_HEIGHT_MM}mm`,
+        left: `${PAGE_MARGIN_MM}mm`,
       });
 
       mock.restoreAll();

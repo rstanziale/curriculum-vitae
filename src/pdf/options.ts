@@ -1,5 +1,5 @@
-const PAGE_MARGIN_MM = 20;
-const FOOTER_HEIGHT_MM = 6;
+export const PAGE_MARGIN_MM = 20;
+export const FOOTER_HEIGHT_MM = 5;
 
 /**
  * PDF generation options filter

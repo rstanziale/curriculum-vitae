@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { getPdfOptions, type PdfFilter } from '../../src/pdf/options.ts';
+import {
+  FOOTER_HEIGHT_MM,
+  getPdfOptions,
+  PAGE_MARGIN_MM,
+  type PdfFilter,
+} from '../../src/pdf/options.ts';
 
 describe('pdf/options.ts', () => {
   describe('getPdfOptions', () => {
@@ -14,10 +19,10 @@ describe('pdf/options.ts', () => {
       assert.strictEqual(options.headerTemplate, undefined);
       assert.strictEqual(options.footerTemplate, undefined);
       assert.deepStrictEqual(options.margin, {
-        top: '20mm',
-        right: '20mm',
-        bottom: '20mm',
-        left: '20mm',
+        top: `${PAGE_MARGIN_MM}mm`,
+        right: `${PAGE_MARGIN_MM}mm`,
+        bottom: `${PAGE_MARGIN_MM}mm`,
+        left: `${PAGE_MARGIN_MM}mm`,
       });
     });
 
@@ -32,10 +37,10 @@ describe('pdf/options.ts', () => {
       assert.strictEqual(options.headerTemplate, '<div></div>');
       assert.strictEqual(options.footerTemplate, filter.footerTemplate);
       assert.deepStrictEqual(options.margin, {
-        top: '20mm',
-        right: '20mm',
-        bottom: '30mm',
-        left: '20mm',
+        top: `${PAGE_MARGIN_MM}mm`,
+        right: `${PAGE_MARGIN_MM}mm`,
+        bottom: `${PAGE_MARGIN_MM + FOOTER_HEIGHT_MM}mm`,
+        left: `${PAGE_MARGIN_MM}mm`,
       });
     });
 
@@ -49,10 +54,10 @@ describe('pdf/options.ts', () => {
       assert.strictEqual(options.displayHeaderFooter, undefined);
       assert.strictEqual(options.footerTemplate, undefined);
       assert.deepStrictEqual(options.margin, {
-        top: '20mm',
-        right: '20mm',
-        bottom: '20mm',
-        left: '20mm',
+        top: `${PAGE_MARGIN_MM}mm`,
+        right: `${PAGE_MARGIN_MM}mm`,
+        bottom: `${PAGE_MARGIN_MM}mm`,
+        left: `${PAGE_MARGIN_MM}mm`,
       });
     });
 
@@ -61,7 +66,7 @@ describe('pdf/options.ts', () => {
 
       assert.strictEqual(options.displayHeaderFooter, undefined);
       assert.strictEqual(options.footerTemplate, undefined);
-      assert.strictEqual(options.margin.bottom, '20mm');
+      assert.strictEqual(options.margin.bottom, `${PAGE_MARGIN_MM}mm`);
     });
   });
 });
