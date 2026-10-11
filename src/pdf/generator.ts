@@ -132,12 +132,16 @@ async function embedFontsAsDataUri(html: string): Promise<string> {
   const fontDir = joinPath(resolvePaths().projectRoot, 'assets', 'fonts');
   const fontFiles = await readdir(fontDir);
   const ttfFiles = fontFiles.filter(file => file.toLowerCase().endsWith('.ttf'));
+  const fonts = await Promise.all(
+    ttfFiles.map(async fileName => ({
+      fileName,
+      buffer: await readFileBuffer(joinPath(fontDir, fileName)),
+    }))
+  );
 
   let result = html;
 
-  for (const fileName of ttfFiles) {
-    const filePath = joinPath(fontDir, fileName);
-    const buffer = await readFileBuffer(filePath);
+  for (const { fileName, buffer } of fonts) {
     const dataUri = `data:font/truetype;base64,${buffer.toString('base64')}`;
 
     result = result.replace(
