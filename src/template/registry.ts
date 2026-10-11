@@ -3,6 +3,11 @@ import handlebars from 'handlebars';
 import { readdir, readFile } from '../utils/fs.ts';
 import { basename, joinPath } from '../utils/path.ts';
 
+export const TEMPLATE_NAME = {
+  CV: 'two-columns' as const,
+  FOOTER: 'footer' as const,
+};
+
 export interface TemplateRegistry {
   templates: Map<string, handlebars.TemplateDelegate>;
 }
@@ -17,13 +22,16 @@ export interface TemplateRegistry {
 export async function createTemplateRegistry(templateDir: string): Promise<TemplateRegistry> {
   const templates = new Map<string, handlebars.TemplateDelegate>();
   const files = await readdir(templateDir);
+  const templateFiles = files.filter(file => file.endsWith('.html'));
+  const sources = await Promise.all(
+    templateFiles.map(async file => ({
+      name: basename(file, '.html'),
+      source: await readFile(joinPath(templateDir, file)),
+    }))
+  );
 
-  for (const file of files) {
-    if (file.endsWith('.html')) {
-      const name = basename(file, '.html');
-      const source = await readFile(joinPath(templateDir, file));
-      templates.set(name, handlebars.compile(source));
-    }
+  for (const { name, source } of sources) {
+    templates.set(name, handlebars.compile(source));
   }
 
   return { templates };

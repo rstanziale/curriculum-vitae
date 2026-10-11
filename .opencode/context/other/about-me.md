@@ -23,6 +23,7 @@ Combines strong technical craftsmanship with a natural role as a **team facilita
   * **Anti-Over-Engineering:** Preference for minimal, robust, and readable software design over premature abstraction.
   * **Documentation & Developer Experience (DX):** Streamlined, high-signal documentation tailored for rapid developer consumption and maintenance.
   * **Self-Directed Skill Acquisition:** Continuous exploration of emerging tools, open-source contribution, AI integration patterns, and new paradigms by reading books and technical blogs, online courses, and hands-on experimentation.
+  * **Team Formation**: Across several side projects, I'm trying to teach new standards and best practices to my team members.
 * **Active R&D & GitHub Side Projects:**
   * **Go Onboarding CLI Tool (Golang):** Custom command-line interface tool to automate health checks, repository pooling, and Git Flow initialization—reducing team onboarding overhead from a full day to a self-service routine.
   * **TypeScript Workflow Engine:** Open-source engine providing high-level abstractions for units of work, supporting complex execution paradigms including sequential, conditional, iterative, and parallel workflows.

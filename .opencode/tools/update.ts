@@ -42,6 +42,40 @@ export const aboutMe = tool({
 });
 
 /**
+ * Tool to update the "Hard Skills" section of the CV.
+ */
+export const hardSkills = tool({
+  description: 'Update the "Hard Skills" section of the CV',
+  args: {
+    lang: tool.schema.string().describe('The language of the content to update'),
+    hardSkills: tool.schema
+      .array(tool.schema.string())
+      .min(6)
+      .max(8)
+      .describe('The updated hard skills content'),
+  },
+  async execute(args) {
+    const { lang, hardSkills } = args;
+
+    try {
+      const dataPath = path.join(PROJECT_ROOT, 'data', `cv.${lang}.json`);
+
+      let dataContent = '';
+      if (fs.existsSync(dataPath)) {
+        dataContent = fs.readFileSync(dataPath, 'utf-8');
+        const dataJson: CvData = JSON.parse(dataContent);
+
+        dataJson.hardSkills = hardSkills;
+        fs.writeFileSync(dataPath, JSON.stringify(dataJson, null, 2), 'utf-8');
+      }
+      return `Success: Updated "Hard Skills" section in ${dataPath}`;
+    } catch (error) {
+      return `Error during "Hard Skills" section update: ${(error as Error).message}`;
+    }
+  },
+});
+
+/**
  * Tool to update the "Work Experience" section of the CV.
  */
 export const workExperience = tool({

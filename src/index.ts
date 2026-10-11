@@ -1,12 +1,15 @@
-import type { TemplateDelegate } from 'handlebars';
-
-import { CV_TEMPLATE_NAME, resolvePaths } from './config/paths.ts';
+import { resolvePaths } from './config/paths.ts';
 import { getCvTag } from './config/tag.ts';
 import { extractLangFromPath, loadCvData } from './data/loader.ts';
 import { validateCvData } from './data/validator.ts';
 import { generatePdf } from './pdf/generator.ts';
 import { getPdfOptions } from './pdf/options.ts';
-import { createTemplateRegistry, getTemplate } from './template/registry.ts';
+import {
+  createTemplateRegistry,
+  getTemplate,
+  TEMPLATE_NAME,
+  type TemplateRegistry,
+} from './template/registry.ts';
 import { ensureDir, readdir, readFile } from './utils/fs.ts';
 import { basename, joinPath } from './utils/path.ts';
 import { formatDuration } from './utils/timing.ts';
@@ -25,12 +28,14 @@ export async function build(): Promise<void> {
   await ensureDir(paths.distDir);
 
   const templateRegistry = await createTemplateRegistry(paths.templatesDir);
-  const template = getTemplate(templateRegistry, CV_TEMPLATE_NAME);
+  console.log(
+    `📦 Loaded ${templateRegistry.templates.size} template(s) from ${paths.templatesDir}`
+  );
 
   const dataFiles = await discoverCvDataFiles(paths.dataDir, paths.schemaPath);
 
   for (const dataFile of dataFiles) {
-    await buildForLanguage(dataFile, paths, schema, template, tag);
+    await buildForLanguage(dataFile, paths, schema, templateRegistry, tag);
   }
 
   const totalDuration = performance.now() - overallStart;
@@ -61,7 +66,7 @@ export async function discoverCvDataFiles(dataDir: string, schemaPath: string): 
  * @param dataFile - CV data filename (e.g. cv.ita.json)
  * @param paths - Resolved project paths
  * @param schema - JSON schema object for validation
- * @param template - Compiled Handlebars template delegate
+ * @param registry - Handlebars template registry
  * @param tag - Version tag for output filename
  * @throws If data loading, validation, or PDF generation fails
  */
@@ -69,7 +74,7 @@ async function buildForLanguage(
   dataFile: string,
   paths: ReturnType<typeof resolvePaths>,
   schema: object,
-  template: TemplateDelegate,
+  registry: TemplateRegistry,
   tag: string
 ): Promise<void> {
   const start = performance.now();
@@ -83,10 +88,15 @@ async function buildForLanguage(
   const data = await loadCvData(dataPath, process.env);
   validateCvData(data, schema);
 
-  const html = template(data);
-  const options = getPdfOptions();
+  const cvTemplate = getTemplate(registry, TEMPLATE_NAME.CV);
+  const footerTemplate = getTemplate(registry, TEMPLATE_NAME.FOOTER);
 
-  await generatePdf(html, outputPath, options);
+  const cv = cvTemplate(data);
+  const footer = footerTemplate({ text: data.gdprConsent || '' });
+  const options = getPdfOptions({ withFooter: !!data.gdprConsent, footerTemplate: footer });
+
+  await generatePdf(cv, outputPath, options);
+
   const duration = performance.now() - start;
   console.log(`✅ Generated: ${outputPath} in ${formatDuration(duration)}`);
 }

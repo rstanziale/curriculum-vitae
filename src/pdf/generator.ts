@@ -32,9 +32,13 @@ export async function generatePdf(
   const page = await createPage(browser);
 
   try {
-    await waitForContent(page, html);
+    await waitForContent(page, updatePageMargins(html, options.margin));
     await checkPageHeight(page, 1123);
-    await page.pdf({ path: outputPath, ...options });
+    const pdfOptions = { ...options };
+    if (pdfOptions.footerTemplate) {
+      pdfOptions.footerTemplate = await embedFontsAsDataUri(pdfOptions.footerTemplate);
+    }
+    await page.pdf({ path: outputPath, ...pdfOptions });
   } finally {
     await browser.close();
   }
@@ -65,6 +69,19 @@ async function createPage(browser: Browser): Promise<Page> {
   const page = await browser.newPage();
   await page.setViewportSize({ width: 794, height: 1123 });
   return page;
+}
+
+/**
+ * Updates the page margins in the HTML content
+ * @param html - HTML content to update
+ * @param margin - Margin values
+ * @returns Updated HTML content
+ */
+function updatePageMargins(html: string, margin: PdfOptions['margin']): string {
+  const regExpPageMargin = /--page-margin:\s*(\S+)\s*;/i;
+  const newMargin = `${margin.top} ${margin.right} ${margin.bottom} ${margin.left}`;
+
+  return html.replace(regExpPageMargin, `--page-margin: ${newMargin};`);
 }
 
 /**
@@ -115,12 +132,16 @@ async function embedFontsAsDataUri(html: string): Promise<string> {
   const fontDir = joinPath(resolvePaths().projectRoot, 'assets', 'fonts');
   const fontFiles = await readdir(fontDir);
   const ttfFiles = fontFiles.filter(file => file.toLowerCase().endsWith('.ttf'));
+  const fonts = await Promise.all(
+    ttfFiles.map(async fileName => ({
+      fileName,
+      buffer: await readFileBuffer(joinPath(fontDir, fileName)),
+    }))
+  );
 
   let result = html;
 
-  for (const fileName of ttfFiles) {
-    const filePath = joinPath(fontDir, fileName);
-    const buffer = await readFileBuffer(filePath);
+  for (const { fileName, buffer } of fonts) {
     const dataUri = `data:font/truetype;base64,${buffer.toString('base64')}`;
 
     result = result.replace(

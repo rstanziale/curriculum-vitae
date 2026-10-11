@@ -1,7 +1,5 @@
 import { joinPath, resolvePath } from '../utils/path.ts';
 
-export const CV_TEMPLATE_NAME = 'cv' as const;
-
 export interface Paths {
   projectRoot: string;
   dataDir: string;

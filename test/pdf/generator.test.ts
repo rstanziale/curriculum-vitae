@@ -5,7 +5,7 @@ import type { Browser } from 'playwright';
 
 import type { BrowserFactory } from '../../src/pdf/generator.ts';
 import { generatePdf } from '../../src/pdf/generator.ts';
-import { getPdfOptions } from '../../src/pdf/options.ts';
+import { FOOTER_HEIGHT_MM, getPdfOptions, PAGE_MARGIN_MM } from '../../src/pdf/options.ts';
 
 interface MockPage {
   setViewportSize: ReturnType<typeof mock.fn>;
@@ -27,6 +27,9 @@ interface GeneratedOptions {
   path?: string;
   format?: 'A4';
   printBackground?: boolean;
+  displayHeaderFooter?: boolean;
+  headerTemplate?: string;
+  footerTemplate?: string;
   margin?: { top: string; right: string; bottom: string; left: string };
 }
 
@@ -58,9 +61,14 @@ describe('pdf/generator.ts', () => {
         launch: mock.fn(async () => mockBrowser as unknown as Browser),
       };
 
-      const html = '<html><body><div class="a4-page">Test</div></body></html>';
+      const html =
+        '<html><head><style>:root { --page-margin: 20mm; }</style></head><body><div class="a4-page">Test</div></body></html>';
       const outputPath = '/tmp/test.pdf';
-      const options = getPdfOptions();
+      const options = getPdfOptions({
+        withFooter: true,
+        footerTemplate:
+          "<style>@font-face{src:url('../assets/fonts/Montserrat-Regular.ttf')}</style><div>Consent</div>",
+      });
 
       await generatePdf(html, outputPath, options, browserFactory as unknown as BrowserFactory);
 
@@ -74,14 +82,20 @@ describe('pdf/generator.ts', () => {
 
       assert.strictEqual(generatedPath, outputPath);
       assert.match(setContentHtml, /<base\s+href=/i);
+      const expectedMargin = `${PAGE_MARGIN_MM}mm ${PAGE_MARGIN_MM}mm ${PAGE_MARGIN_MM + FOOTER_HEIGHT_MM}mm ${PAGE_MARGIN_MM}mm`;
+      assert.match(setContentHtml, new RegExp(`--page-margin:\\s*${expectedMargin};`));
       const opts = generatedOptions as unknown as GeneratedOptions;
       assert.strictEqual(opts.format, 'A4');
       assert.strictEqual(opts.printBackground, true);
+      assert.strictEqual(opts.displayHeaderFooter, true);
+      assert.strictEqual(opts.headerTemplate, '<div></div>');
+      assert.match(opts.footerTemplate ?? '', /data:font\/truetype;base64,/);
+      assert.match(opts.footerTemplate ?? '', /<div>Consent<\/div>/);
       assert.deepStrictEqual(opts.margin, {
-        top: '0mm',
-        right: '0mm',
-        bottom: '0mm',
-        left: '0mm',
+        top: `${PAGE_MARGIN_MM}mm`,
+        right: `${PAGE_MARGIN_MM}mm`,
+        bottom: `${PAGE_MARGIN_MM + FOOTER_HEIGHT_MM}mm`,
+        left: `${PAGE_MARGIN_MM}mm`,
       });
 
       mock.restoreAll();

@@ -136,7 +136,7 @@ CSS is scoped to the `cv` class and uses BEM naming.
 The pipeline enforces the following document constraints:
 
 * **One page, A4** — `@page { size: A4; margin: 0 }`, viewport `794×1123`. The build warns if content overflows the single page.
-* **Zero margins, background preserved** — colors and Montserrat render as defined by the template.
+* **Colors and layout** — colors and layout are defined by the template.
 * **Fonts embedded** — `assets/fonts/Montserrat-*.ttf` are inlined as `data:` URIs so the PDF renders offline and consistently on any machine.
 * **Self-contained HTML** — a `<base>` tag is injected so relative asset paths resolve without a server.
 * **Versioned output** — each PDF is named `CV_RBS_{LANG}-{tag}.pdf` from `CV_TAG` (defaults to `test`).
